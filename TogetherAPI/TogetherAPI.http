@@ -1,0 +1,19 @@
+@TogetherAPI_HostAddress = https://localhost:7285
+
+GET {{TogetherAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{TogetherAPI_HostAddress}}/api/tarefa
+
+###
+
+POST {{TogetherAPI_HostAddress}}/api/tarefa
+Content-Type: application/json
+
+{
+  //Tarefa
+}
+
+###
