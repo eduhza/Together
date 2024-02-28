@@ -8,9 +8,14 @@ public class Tarefa_EnsureFutureDateAttribute : ValidationAttribute
 
         if(tarefa != null && !string.IsNullOrEmpty(tarefa.Data)) 
         {
-            if (DateTime.Compare(DateTime.ParseExact(tarefa.Data, "dd/MM/yyyy HH:mm", null), DateTime.Now) <= 0)
+            if (DateTime.TryParse(tarefa.Data, out DateTime data))
             {
-                return new ValidationResult("Erro, insira uma data no futuro.");
+                if(DateTime.Compare(data, DateTime.Now) <= 0)
+                    return new ValidationResult("Erro, insira uma data no futuro.");
+            }
+            else
+            {
+                return new ValidationResult("Erro, não foi possível ler a data.");
             }
         }
         return ValidationResult.Success;
