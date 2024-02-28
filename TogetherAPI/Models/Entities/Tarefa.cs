@@ -4,7 +4,8 @@ public class Tarefa
 {
     public int TarefaId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Nome é obrigatório!")]
+    [MaxLength(100)]
     public string? Nome { get; set; }
 
     public string? Descricao { get; set; }

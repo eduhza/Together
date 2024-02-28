@@ -27,10 +27,10 @@ public class TarefaController : ControllerBase
     [Tarefa_ValidateCreateTarefaFilter]
     public IActionResult CreateTarefa([FromBody] Tarefa tarefa)
     {
-        _tarefaRepository.CreateTarefa(tarefa);
+        var id = _tarefaRepository.CreateTarefa(tarefa).Result;
 
         return CreatedAtAction(nameof(GetTarefaById),
-            new { id = tarefa.TarefaId },
+            new { id = id },
             tarefa);
     }
 

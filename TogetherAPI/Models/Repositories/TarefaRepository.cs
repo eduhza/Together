@@ -21,28 +21,25 @@ public class TarefaRepository : ITarefaRepository
                 x.Nome.ToLower() == nome.ToLower());
     }
 
-    public async Task CreateTarefa(Tarefa tarefa)
+    public async Task<int?> CreateTarefa(Tarefa tarefa)
     {
-        try
-        {
-            //int maxId = _dataContext.Tarefas.Max(x => x.TarefaId);
-            //tarefa.TarefaId = maxId + 1;
-            _dataContext.Tarefas.Add(tarefa);
-            
-            await _dataContext.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            var a = ex.ToString();
-        }
+        _dataContext.Tarefas.Add(tarefa);
+        await _dataContext.SaveChangesAsync();
+
+        return tarefa.Nome != null ? await _dataContext.Tarefas.CountAsync() : 0;
     }
 
     public async Task UpdateTarefa(Tarefa tarefa)
     {
-        var tarefaAtualizar = await _dataContext.Tarefas.FirstAsync (x => x.TarefaId == tarefa.TarefaId);
-        tarefaAtualizar.Descricao = tarefa.Descricao;
-        tarefaAtualizar.Data = tarefa.Data;
-        tarefaAtualizar.Nome = tarefa.Nome;
+        var tarefaAtualizar = await _dataContext.Tarefas.FirstAsync(x => x.TarefaId == tarefa.TarefaId);
+        if(tarefaAtualizar  != null)
+        {
+            tarefaAtualizar.Descricao = tarefa.Descricao;
+            tarefaAtualizar.Data = tarefa.Data;
+            tarefaAtualizar.Nome = tarefa.Nome;
+
+            await _dataContext.SaveChangesAsync();
+        }
     }
 
     public async Task<bool> TarefaExiste(int? id) 
