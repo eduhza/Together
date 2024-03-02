@@ -1,4 +1,6 @@
-﻿namespace TogetherAPI.Models.Validations;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TogetherAPI.Models.Validations;
 
 public class Tarefa_EnsureFutureDateAttribute : ValidationAttribute
 {

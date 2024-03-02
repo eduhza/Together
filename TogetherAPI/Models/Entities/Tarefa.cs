@@ -1,4 +1,6 @@
-﻿namespace TogetherAPI.Models.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TogetherAPI.Models.Entities;
 
 public class Tarefa
 {

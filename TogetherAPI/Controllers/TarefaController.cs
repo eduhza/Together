@@ -1,4 +1,6 @@
-﻿namespace TogetherAPI.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace TogetherAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
