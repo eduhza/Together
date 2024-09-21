@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TogetherAPI.Filters.ActionFilters;
 
@@ -9,9 +10,8 @@ public class Tarefa_ValidateUpdateTarefaFilterAttribute : ActionFilterAttribute
         base.OnActionExecuting(context);
 
         var id = context.ActionArguments["id"] as int?;
-        var tarefa = context.ActionArguments["tarefa"] as Tarefa;
 
-        if (id.HasValue && tarefa != null)
+        if (id.HasValue && context.ActionArguments["tarefa"] is Tarefa tarefa)
         {
             if (id != tarefa.TarefaId)
             {

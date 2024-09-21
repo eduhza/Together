@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using TogetherAPI.Models.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TogetherAPI.Filters.ActionFilters;
 
 public class Tarefa_ValidateTarefaIdFilterAttribute : ActionFilterAttribute
 {
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async void OnActionExecuting(ActionExecutingContext context)
     {
         base.OnActionExecuting(context);
 
@@ -25,7 +25,7 @@ public class Tarefa_ValidateTarefaIdFilterAttribute : ActionFilterAttribute
 
                 context.Result = new BadRequestObjectResult(problemDetails);
             }
-            else if (!tarefaRepository.TarefaExiste(tarefaId.Value).Result)
+            else if (!await tarefaRepository.TarefaExiste(tarefaId.Value))
             {
                 context.ModelState.AddModelError("TarefaId", "Tarefa não existe.");
                 var problemDetails = new ValidationProblemDetails(context.ModelState)

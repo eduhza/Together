@@ -5,15 +5,13 @@ namespace TogetherAPI.Filters.ActionFilters;
 
 public class Tarefa_ValidateCreateTarefaFilterAttribute : ActionFilterAttribute
 {
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async void OnActionExecuting(ActionExecutingContext context)
     {
         base.OnActionExecuting(context);
 
-        var tarefa = context.ActionArguments["tarefa"] as Tarefa;
-
         var tarefaRepository = context.HttpContext.RequestServices.GetRequiredService<ITarefaRepository>();
 
-        if (tarefa == null || tarefa.Nome == null)
+        if (context.ActionArguments["tarefa"] is not Tarefa tarefa || tarefa.Nome == null)
         {
             context.ModelState.AddModelError("Tarefa", "Tarefa ou nome nulos.");
             var problemDetails = new ValidationProblemDetails(context.ModelState)
@@ -25,7 +23,7 @@ public class Tarefa_ValidateCreateTarefaFilterAttribute : ActionFilterAttribute
         }
         else
         {
-            var tarefaExiste = tarefaRepository.GetTarefaByNome(tarefa.Nome).Result;
+            var tarefaExiste = await tarefaRepository.GetTarefaByNome(tarefa.Nome);
             if (tarefaExiste != null)
             {
                 context.ModelState.AddModelError("Tarefa", "Tarefa com mesmo nome existente.");
